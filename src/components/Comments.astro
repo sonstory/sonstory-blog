@@ -1,0 +1,36 @@
+---
+import { GISCUS_CONFIG } from '../consts';
+
+const isConfigured = Boolean(GISCUS_CONFIG.repo && GISCUS_CONFIG.repoId && GISCUS_CONFIG.categoryId);
+---
+
+<section class="mt-16 border-t-2 border-ink pt-10">
+  <h2 class="text-lg font-extrabold">댓글</h2>
+  {
+    isConfigured ? (
+      <div class="mt-6" data-giscus-container>
+        <script
+          is:inline
+          src="https://giscus.app/client.js"
+          data-repo={GISCUS_CONFIG.repo}
+          data-repo-id={GISCUS_CONFIG.repoId}
+          data-category={GISCUS_CONFIG.category}
+          data-category-id={GISCUS_CONFIG.categoryId}
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="light"
+          data-lang="ko"
+          crossorigin="anonymous"
+          async
+        />
+      </div>
+    ) : (
+      <p class="mt-4 border-2 border-ink bg-bg-sub px-4 py-3 text-sm text-muted">
+        댓글은 배포 후 giscus 설정을 마치면 활성화됩니다. (docs/DEPLOY.md 참조)
+      </p>
+    )
+  }
+</section>

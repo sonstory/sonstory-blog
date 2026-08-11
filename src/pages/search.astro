@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
+---
+
+<BaseLayout title="검색" description="Sonstory 사이트 내 검색">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-3xl font-extrabold">검색</h1>
+    <div class="mt-8">
+      <PagefindConfig />
+      <pagefind-searchbox class="block"></pagefind-searchbox>
+    </div>
+  </section>
+</BaseLayout>

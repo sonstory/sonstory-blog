@@ -1,0 +1,46 @@
+---
+import { CATEGORIES, SITE_TITLE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t-2 border-ink">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div class="flex flex-col gap-8 sm:flex-row sm:justify-between">
+      <div>
+        <p class="text-lg font-extrabold text-ink">{SITE_TITLE}</p>
+        <p class="mt-2 max-w-xs text-sm text-muted">
+          AI 논문 리뷰, AI Agent 프로젝트, 머신러닝 공부를 기록하는 기술블로그
+        </p>
+      </div>
+
+      <div class="flex gap-10">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wide text-muted">카테고리</p>
+          <ul class="mt-3 flex flex-col gap-2">
+            {
+              CATEGORIES.map((c) => (
+                <li>
+                  <a href={`/${c.slug}`} class="text-sm text-ink hover:underline">
+                    {c.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wide text-muted">사이트</p>
+          <ul class="mt-3 flex flex-col gap-2">
+            <li><a href="/about" class="text-sm text-ink hover:underline">About</a></li>
+            <li><a href="/rss.xml" class="text-sm text-ink hover:underline">RSS</a></li>
+            <li><a href="/privacy" class="text-sm text-ink hover:underline">개인정보처리방침</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-10 text-xs text-muted">&copy; {year} {SITE_TITLE}. All rights reserved.</p>
+  </div>
+</footer>

@@ -1,0 +1,29 @@
+---
+import { ADSENSE_CLIENT_ID } from '../consts';
+
+interface Props {
+  /** consts.ts의 ADSENSE_AD_SLOTS 값 중 하나 */
+  adSlotId: string;
+}
+
+const { adSlotId } = Astro.props;
+const isConfigured = Boolean(ADSENSE_CLIENT_ID && adSlotId);
+---
+
+{
+  isConfigured && (
+    <div class="my-10" style="min-height: 100px;">
+      <ins
+        class="adsbygoogle block"
+        style="min-height: 100px;"
+        data-ad-client={ADSENSE_CLIENT_ID}
+        data-ad-slot={adSlotId}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+      <script is:inline>
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  )
+}

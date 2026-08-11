@@ -1,0 +1,21 @@
+---
+interface Props {
+  tags: { tag: string; count: number }[];
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-2">
+  {
+    tags.map(({ tag, count }) => (
+      <a
+        href={`/tags/${tag}`}
+        class="group border-2 border-ink px-3 py-1.5 text-sm font-medium text-ink hover:bg-ink hover:text-bg"
+      >
+        #{tag}
+        <span class="ml-1 text-xs text-muted group-hover:text-bg">{count}</span>
+      </a>
+    ))
+  }
+</div>

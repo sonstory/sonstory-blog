@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { AUTHOR_NAME, SITE_URL, SOCIAL_LINKS } from '../consts';
+
+// TODO: 아래 placeholder 데이터를 실제 프로필로 교체한다.
+// 사진은 public/profile.jpg 등으로 넣고 아래 profile.photo 경로를 갱신한다.
+const profile = {
+  name: AUTHOR_NAME,
+  role: '한 줄 소개를 입력하세요 (예: AI 엔지니어 / 머신러닝 연구자)',
+  bio: '자기소개 문단을 여기에 작성하세요. 배경, 관심 분야, 이 블로그를 쓰는 이유 등을 2~4문장으로 정리하면 좋습니다.',
+};
+
+const publications = [
+  {
+    title: '논문 제목을 입력하세요',
+    venue: '학회/저널명, 연도',
+    authors: '공저자 목록',
+    link: '',
+  },
+];
+
+const timeline = [
+  {
+    period: '2024 — 현재',
+    org: '소속을 입력하세요',
+    role: '직무/역할',
+    description: '담당 업무나 성과를 간단히 작성하세요.',
+  },
+];
+
+const projects = [
+  {
+    title: '프로젝트 이름',
+    description: '프로젝트 한 줄 설명',
+    link: '',
+  },
+];
+
+const socialItems = [
+  { label: 'GitHub', href: SOCIAL_LINKS.github },
+  { label: 'LinkedIn', href: SOCIAL_LINKS.linkedin },
+  { label: 'Email', href: SOCIAL_LINKS.email && `mailto:${SOCIAL_LINKS.email}` },
+].filter((item) => item.href);
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  description: profile.role,
+  url: `${SITE_URL}/about`,
+  sameAs: socialItems.filter((item) => item.label !== 'Email').map((item) => item.href),
+};
+---
+
+<BaseLayout title="About" description="Sonstory 운영자 소개" canonicalPath="/about">
+  <JsonLd data={personJsonLd} slot="head" />
+  <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <!-- 프로필 -->
+    <section class="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+      <div class="flex h-28 w-28 shrink-0 items-center justify-center border-2 border-ink bg-bg-sub text-3xl font-extrabold">
+        S
+      </div>
+      <div>
+        <h1 class="text-2xl font-extrabold">{profile.name}</h1>
+        <p class="mt-1 font-semibold text-muted">{profile.role}</p>
+        {
+          socialItems.length > 0 && (
+            <div class="mt-3 flex flex-wrap gap-3">
+              {socialItems.map((item) => (
+                <a href={item.href} class="text-sm font-semibold underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <p class="mt-8 leading-relaxed text-ink">{profile.bio}</p>
+
+    <!-- Publications -->
+    <section class="mt-16">
+      <h2 class="border-b-2 border-ink pb-2 text-xl font-extrabold">Publications</h2>
+      <ul class="mt-6 flex flex-col gap-5">
+        {
+          publications.map((pub) => (
+            <li class="border-2 border-ink p-5">
+              {pub.link ? (
+                <a href={pub.link} class="font-bold underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+                  {pub.title}
+                </a>
+              ) : (
+                <p class="font-bold">{pub.title}</p>
+              )}
+              <p class="mt-1 text-sm text-muted">{pub.venue}</p>
+              <p class="mt-1 text-sm text-muted">{pub.authors}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- 경력 타임라인 -->
+    <section class="mt-16">
+      <h2 class="border-b-2 border-ink pb-2 text-xl font-extrabold">경력</h2>
+      <ol class="mt-6 flex flex-col gap-8 border-l-2 border-ink pl-6">
+        {
+          timeline.map((item) => (
+            <li>
+              <p class="text-xs font-bold uppercase tracking-wide text-muted">{item.period}</p>
+              <p class="mt-1 font-bold">
+                {item.org} · {item.role}
+              </p>
+              <p class="mt-1 text-sm text-muted">{item.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <!-- 프로젝트 -->
+    <section class="mt-16">
+      <h2 class="border-b-2 border-ink pb-2 text-xl font-extrabold">프로젝트</h2>
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {
+          projects.map((project) => (
+            <a
+              href={project.link || undefined}
+              target={project.link ? '_blank' : undefined}
+              rel={project.link ? 'noopener noreferrer' : undefined}
+              class="hard-card flex flex-col gap-2 p-5"
+            >
+              <h3 class="font-bold">{project.title}</h3>
+              <p class="text-sm text-muted">{project.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
