@@ -1,34 +1,51 @@
 # 배포 절차
 
-이 문서는 로컬 개발까지 끝난 뒤, 실제로 사이트를 인터넷에 올리는 9단계(계정 생성·도메인 구매 등 직접 해야 하는 작업)를 다룬다. 몇 달에 한 번만 하는 작업이라 그때 가서 기억나지 않는 부분이 많다 — 실제로 진행하면서 이 문서에 절차를 채워 넣는다.
+이 문서는 로컬 개발까지 끝난 뒤, 실제로 사이트를 인터넷에 올리는 작업(계정 생성·도메인 구매 등 직접 해야 하는 것들)을 다룬다. 몇 달에 한 번만 하는 작업이라 그때 가서 기억나지 않는 부분이 많다 — 진행하면서 실제로 밟은 절차를 여기에 기록한다.
 
-## 1. GitHub 저장소 생성
+현재 어디까지 왔는지는 `docs/BACKLOG.md`의 "현재 진행 상황"을 본다.
 
-- **public** 저장소로 생성한다 (이유: `docs/DESIGN.md` 옆 저장소 전략 참고 — 개발자 포트폴리오 겸용, 초고는 `src/content/drafts/`가 gitignore로 보호하므로 public이어도 안전)
-- 로컬 저장소를 이 원격에 연결하고 push
+## 1. GitHub 저장소 생성 ✅ 완료
+
+- **public** 저장소 `sonstory/sonstory-blog` (개발자 포트폴리오 겸용. 초고는 `src/content/drafts/`가 gitignore로 보호하므로 public이어도 안전하다)
+- 저장소명이 `sonstory`가 아닌 이유: 계정명과 같은 저장소는 GitHub이 프로필 README 전용으로 예약해둔 특수 저장소라 쓸 수 없다
 
 ```sh
-git remote add origin <저장소 URL>
+git remote add origin git@github.com:sonstory/sonstory-blog.git
 git push -u origin main
 ```
 
-## 2. Cloudflare Pages 연결
+- **반드시 SSH 원격을 쓴다.** HTTPS(`https://github.com/...`)로 push하면 인증(200 OK)까지 통과한 뒤 GitHub의 스트리밍 응답이 중간에 끊겨 `RPC failed; HTTP 400` / `unexpected disconnect while reading sideband packet`으로 실패한다. 이 환경의 네트워크 문제이며 HTTP/1.1 강제, 자격증명 재발급으로도 해결되지 않는다 — SSH가 유일한 해결책이다
+- SSH 키(`~/.ssh/id_rsa.pub`)를 GitHub → Settings → SSH and GPG keys에 등록하고 `ssh -T git@github.com`으로 `Hi sonstory!`가 나오는지 먼저 확인한다
 
-- Vercel이 아닌 **Cloudflare Pages**를 쓰는 이유: Vercel Hobby(무료) 플랜은 AdSense 게재를 상업적 사용으로 분류해 금지한다. Cloudflare Pages 무료 티어는 상업적 사용을 허용하고 대역폭도 무제한이다
-- Cloudflare 대시보드 → Workers & Pages → Create → Pages → GitHub 연결 → 이 저장소 선택
-- 빌드 설정
+## 2. Cloudflare 배포 연결 ✅ 완료
+
+- Vercel이 아닌 **Cloudflare**를 쓰는 이유: Vercel Hobby(무료) 플랜은 AdSense 게재를 상업적 사용으로 분류해 금지한다. Cloudflare 무료 티어는 상업적 사용을 허용하고 대역폭도 무제한이다
+- 배포 방식은 Pages가 아니라 **Workers 정적 자산(static assets)** 이다. Cloudflare가 최근 Pages 기능을 Workers로 통합하면서 신규 프로젝트는 이쪽으로 만들어진다
+- 루트의 `wrangler.jsonc`가 배포 대상을 지정한다. 이 파일이 없으면 `wrangler deploy`가 실패한다
+
+```jsonc
+{
+  "name": "sonstory-blog",
+  "compatibility_date": "2026-08-13",
+  "assets": { "directory": "./dist" }
+}
+```
+
+- 대시보드 설정 (Workers & Pages → Create → 저장소 연결)
   - Build command: `npm run build`
-  - Build output directory: `dist`
-- 첫 배포 후 `*.pages.dev` 임시 URL로 정상 동작 확인
+  - Deploy command: `npx wrangler deploy`
+- 배포 URL: `https://sonstory-blog.junyoung5448.workers.dev`
+- 이후 `main`에 push할 때마다 자동으로 빌드·재배포된다
 
 ## 3. 커스텀 도메인 연결
 
-- 도메인 구매처(가비아, Cloudflare Registrar 등)에서 도메인 구매
-- Cloudflare Pages 프로젝트 → Custom domains → 도메인 추가 → 안내에 따라 DNS 레코드 설정
-- 도메인이 확정되면 **다음 세 곳을 함께 갱신**해야 한다 (하나라도 빠지면 sitemap·OG·canonical URL이 어긋난다)
+- 도메인: **`sonstory.dev`** (Cloudflare Registrar에서 구매 — 같은 대시보드에서 관리되어 네임서버 이전이 필요 없고 원가로 제공된다)
+- Cloudflare 대시보드 → `sonstory-blog` 워커 → Settings → Domains & Routes → Custom domain 추가
+- 도메인이 붙으면 **다음 세 곳을 함께 갱신**해야 한다 (하나라도 빠지면 sitemap·OG·canonical URL이 어긋난다)
   1. `src/consts.ts`의 `SITE_URL`
   2. `astro.config.mjs`의 `site`
   3. `public/robots.txt`의 `Sitemap:` 줄
+- 세 곳 모두 현재 `https://sonstory.kr` placeholder 상태다 → `https://sonstory.dev`로 교체할 것
 
 ## 4. 구글 서치콘솔
 
