@@ -14,8 +14,8 @@ function isActive(href: string) {
 }
 ---
 
-<header class="sticky top-0 z-50 bg-bg">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+<header id="site-header" class="sticky top-0 z-50 border-b-2 border-transparent bg-bg transition-colors">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-6 sm:px-6">
     <a href="/" class="text-xl font-extrabold tracking-tight text-ink">
       {SITE_TITLE}
     </a>
@@ -81,6 +81,12 @@ function isActive(href: string) {
   </nav>
 </header>
 
+<style>
+  #site-header.is-scrolled {
+    border-bottom-color: #e5e5e5;
+  }
+</style>
+
 <script>
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
@@ -90,4 +96,11 @@ function isActive(href: string) {
     menu?.classList.toggle('hidden');
     toggle.setAttribute('aria-expanded', String(Boolean(isHidden)));
   });
+
+  const header = document.getElementById('site-header');
+  const updateScrolledState = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 0);
+  };
+  updateScrolledState();
+  window.addEventListener('scroll', updateScrolledState, { passive: true });
 </script>
