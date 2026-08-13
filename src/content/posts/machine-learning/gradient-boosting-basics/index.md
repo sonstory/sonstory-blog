@@ -4,7 +4,7 @@ description: "약한 학습기를 순차적으로 더해 오차를 줄여나가�
 pubDate: 2026-08-05
 category: machine-learning
 tags: ["gradient-boosting", "ensemble", "supervised-learning"]
-heroImage: "./thumb.png"
+heroImage: "./fig1.png"
 draft: false
 ---
 

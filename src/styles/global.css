@@ -35,10 +35,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-bg);
-  background-image: url('/textures/bg-pattern.svg');
-  background-repeat: repeat;
-  background-size: 220px 220px;
+  background: var(--color-bg);
   color: var(--color-ink);
 }
 
@@ -72,8 +69,6 @@ body {
   --tw-prose-th-borders: var(--color-border);
   --tw-prose-td-borders: var(--color-border);
   max-width: none;
-  /* 본문은 배경 무늬 위에 불투명한 흰 바탕을 깔아 가독성을 지킨다 */
-  background: var(--color-bg);
 }
 
 /* 요청하신 "#으로 대제목 작성 시 구분선" — 마크다운 원문을 건드리지 않고

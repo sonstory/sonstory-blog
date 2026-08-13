@@ -28,8 +28,17 @@ npm run new:post -- --category ai-agent --slug my-post-slug --draft false
 | `updatedDate` | date | — | 내용을 크게 수정했을 때만 추가 |
 | `category` | `paper-review` \| `ai-agent` \| `machine-learning` | ✅ | 폴더 구조와 일치해야 한다 |
 | `tags` | string 배열 | — | `/tags/[tag]` 페이지와 메인 키워드 클라우드에 쓰인다. 기본값 `[]` |
-| `heroImage` | 이미지 상대경로 (예: `"./thumb.png"`) | ✅ | OG 공유 이미지로만 쓰인다 (페이지에는 표시되지 않는다). `title`/`description`을 쓰면 `npm run dev`/`build`가 알아서 자동 생성하므로 직접 만들 필요는 없다 |
+| `heroImage` | 이미지 상대경로 (예: `"./fig1.png"`) | ✅ | 목록 카드(홈·카테고리·태그·전체 글)에 표시되는 썸네일이자 OG 공유 이미지 |
 | `draft` | boolean | — | `true`면 `posts/`에 있어도 빌드에서 제외된다. 기본값 `false` |
+
+### heroImage 정하기
+
+두 가지 방법이 있다.
+
+1. **본문에 쓴 이미지 중 하나를 재사용한다.** 가장 쉬운 방법. `heroImage: "./fig1.png"`처럼 이미 글에 넣은 그림/도식을 그대로 대표 이미지로 지정한다. 세 샘플 글이 모두 이 방식이다.
+2. **직접 이미지를 만든다.** 사진이 없으면 `npm run gen:thumb -- <포스트 폴더>`로 카테고리 액센트 컬러 기반의 템플릿 썸네일(제목·설명 자동 합성)을 생성할 수 있다. `npm run new:post`로 글을 스캐폴딩하면 이 명령이 자동으로 한 번 실행되어 `thumb.png`가 임시로 만들어진다 — 이후 1번 방식으로 교체하거나, `title`/`description`을 수정한 뒤 같은 명령을 다시 실행해 갱신한다.
+
+**자동으로 재생성되지 않는다.** `title`/`description`을 고친 뒤 템플릿 썸네일을 계속 쓰고 싶다면 `gen:thumb`을 직접 다시 실행해야 한다.
 
 ## 마크다운 문법
 
@@ -89,4 +98,4 @@ def hello():
 3. `pubDate`가 오늘 이후 미래 날짜로 잘못 들어가지 않았는지 확인
 4. `draft: false`인지 확인 (기본값이라 필드를 아예 생략해도 됨)
 5. `npm run build`가 에러 없이 통과하는지 확인
-6. `git add`, `git commit`, `git push` — Cloudflare Pages가 자동으로 재배포한다
+6. `git add`, `git commit`, `git push` — Cloudflare가 자동으로 재배포한다

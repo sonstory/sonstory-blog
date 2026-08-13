@@ -80,7 +80,10 @@ print("코드 블록은 자동으로 복사 버튼이 붙습니다")
   await generateOne(targetDir);
 
   console.log(`생성됨: ${path.relative(projectRoot, targetDir)}/index.md`);
-  console.log('제목/설명을 수정한 뒤에는 `npm run gen:thumb -- <폴더 경로>`로 썸네일을 다시 생성하세요.');
+  console.log(
+    'thumb.png는 임시 플레이스홀더입니다. 본문에 쓸 이미지 중 하나를 heroImage로 지정하거나(예: "./fig1.png"), ' +
+      '`npm run gen:thumb -- <폴더 경로>`로 다시 만들어서 실제 대표 이미지로 교체하세요.'
+  );
   if (isDraft) {
     console.log('초고 폴더(drafts/)는 git에 커밋되지 않습니다. 완성되면 posts/로 옮기세요.');
   }

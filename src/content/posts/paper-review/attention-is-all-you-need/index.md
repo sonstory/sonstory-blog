@@ -4,7 +4,7 @@ description: "Transformer 구조를 제안한 원 논문을 리뷰하고, Scaled
 pubDate: 2026-08-01
 category: paper-review
 tags: ["transformer", "attention", "nlp"]
-heroImage: "./thumb.png"
+heroImage: "./fig1.png"
 draft: false
 ---
 

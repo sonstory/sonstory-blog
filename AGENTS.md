@@ -9,12 +9,10 @@ npm run dev              # 개발 서버 (astro dev --background 권장)
 npm run build             # 프로덕션 빌드 (Pagefind 인덱싱 포함)
 npm run preview           # 빌드 결과 미리보기
 npm run new:post -- --category paper-review --slug my-post   # 새 글 스캐폴딩
-npm run gen:thumb -- --all   # 썸네일(thumb.png) 일괄 재생성
+npm run gen:thumb -- <포스트 폴더>   # (선택) 템플릿 썸네일 생성/재생성
 ```
 
 개발 서버는 백그라운드로 띄우고 `astro dev stop` / `astro dev status` / `astro dev logs`로 관리한다.
-
-`dev`/`build`는 `predev`/`prebuild` 훅으로 `gen-thumbnail.mjs --all`을 먼저 돌린다. 즉 **모든 글의 `thumb.png`는 실행할 때마다 frontmatter 기준으로 재생성된다** — 손으로 만들지 않으며, 빌드 후 `git status`에 뜨는 `thumb.png` 변경은 정상이다. `npx astro dev`로 우회 실행하면 훅이 돌지 않으니 그때만 `gen:thumb`을 직접 쓴다.
 
 브라우저에 옛 이미지가 계속 보이면 `node_modules/.astro/assets`(이미지 변환 캐시)를 지우고 서버를 재시작한다.
 
@@ -24,7 +22,7 @@ npm run gen:thumb -- --all   # 썸네일(thumb.png) 일괄 재생성
 - 이미지는 글과 같은 폴더에 두고 `./fig1.png` 상대경로로 참조
 - **초고는 `src/content/drafts/<category>/<slug>/`에 쓴다** (gitignore, 로컬 전용, posts와 동일하게 카테고리별 하위 폴더). 완성되면 `posts/<category>/`로 폴더째 옮긴다. **drafts 안의 파일을 절대 커밋하지 않는다**
 - frontmatter 필수 필드와 문법 예시는 `docs/POSTING.md` 참조. `description`은 검색 스니펫에 쓰이므로 공백 포함 150자 내외로 작성
-- `heroImage: "./thumb.png"`는 필수지만 **OG 공유 이미지 전용**이다 (페이지 어디에도 표시하지 않는다). 파일은 위 훅이 자동 생성하므로 직접 만들지 않는다
+- `heroImage`는 필수이며 목록 카드 썸네일 + OG 이미지로 쓰인다. **본문에 쓴 이미지 중 하나를 그대로 지정하는 게 기본값**이다 (예: `heroImage: "./fig1.png"`). 직접 만들 이미지가 없으면 `npm run gen:thumb`으로 템플릿 썸네일을 생성한다
 
 ## 디자인 불변 규칙
 
@@ -32,7 +30,8 @@ npm run gen:thumb -- --all   # 썸네일(thumb.png) 일괄 재생성
 - 색상은 `src/styles/global.css`의 `@theme` 토큰만 사용
 - 둥근 그림자·블러 금지 — 카드 강조는 하드 섀도우(`4px 4px 0 #111`)만 사용
 - 카테고리 배지는 **액센트 배경 + 흰 글씨**로 통일한다 (테두리+색글씨 방식으로 되돌리지 말 것)
-- 콘텐츠 영역 폭은 `max-w-6xl`, 섹션 구분선도 이 폭 안에 그린다 (화면 끝까지 잇지 않는다)
+- 콘텐츠 영역 폭은 `max-w-6xl`. 홈페이지 섹션 사이에는 구분선을 넣지 않고 padding으로만 구획한다
+- 배경은 순백 단색 유지 (패턴/텍스처를 넣었다가 가독성 문제로 뺀 이력 있음 — 재도입하지 않는다)
 - 상세 토큰표는 `docs/DESIGN.md` 참조
 
 ## 배포

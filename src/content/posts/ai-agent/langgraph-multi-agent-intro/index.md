@@ -4,7 +4,7 @@ description: "LangGraph의 StateGraph로 여러 에이전트가 협업하는 라
 pubDate: 2026-08-03
 category: ai-agent
 tags: ["langgraph", "multi-agent", "llm"]
-heroImage: "./thumb.png"
+heroImage: "./fig1.png"
 draft: false
 ---
 

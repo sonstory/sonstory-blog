@@ -1,36 +1,41 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { getCategory } from '../consts';
 
 interface Props {
   post: CollectionEntry<'posts'>;
-  showCategory?: boolean;
 }
 
-const { post, showCategory = true } = Astro.props;
+const { post } = Astro.props;
 const [categorySlug] = post.id.split('/');
 const category = getCategory(categorySlug)!;
 ---
 
-<a href={`/${post.id}`} class="hard-card flex flex-col p-5">
-  {
-    showCategory && (
-      <p
-        class="inline-block self-start px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white"
-        style={`background:${category.accent}`}
-      >
-        {category.label}
-      </p>
-    )
-  }
-  <h3 class="mt-3 text-xl font-extrabold leading-snug text-ink">{post.data.title}</h3>
-  <p class="mt-3 line-clamp-2 text-sm text-muted">{post.data.description}</p>
-  <div class="mt-auto flex flex-wrap items-center gap-2 pt-3">
-    <p class="text-xs text-muted">{post.data.pubDate.toLocaleDateString('ko-KR')}</p>
-    {
-      post.data.tags.map((tag) => (
-        <span class="border border-ink px-1.5 py-0.5 text-[11px] font-medium text-muted">#{tag}</span>
-      ))
-    }
+<a href={`/${post.id}`} class="hard-card flex flex-col">
+  <Image
+    src={post.data.heroImage}
+    alt={post.data.title}
+    width={600}
+    height={315}
+    class="aspect-[1200/630] w-full border-b-[3px] border-ink object-cover"
+  />
+  <div class="flex flex-1 flex-col p-5">
+    <p
+      class="inline-block self-start px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white"
+      style={`background:${category.accent}`}
+    >
+      {category.label}
+    </p>
+    <h3 class="mt-3 text-xl font-extrabold leading-snug text-ink">{post.data.title}</h3>
+    <p class="mt-3 line-clamp-2 text-sm text-muted">{post.data.description}</p>
+    <div class="mt-auto flex flex-wrap items-center gap-2 pt-3">
+      <p class="text-xs text-muted">{post.data.pubDate.toLocaleDateString('ko-KR')}</p>
+      {
+        post.data.tags.map((tag) => (
+          <span class="border border-ink px-1.5 py-0.5 text-[11px] font-medium text-muted">#{tag}</span>
+        ))
+      }
+    </div>
   </div>
 </a>
