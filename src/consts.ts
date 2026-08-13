@@ -43,13 +43,13 @@ export function getCategory(slug: string): Category | undefined {
 }
 
 /** About 페이지 및 글 작성자 표기(JSON-LD)에 함께 쓰인다. */
-export const AUTHOR_NAME = '이름을 입력하세요';
+export const AUTHOR_NAME = '손준영';
 
-/** About 페이지 소셜 링크. 6단계(About 페이지)에서 실제 값으로 채운다. */
+/** 홈 히어로, About 페이지 소셜 링크. */
 export const SOCIAL_LINKS = {
-  github: '',
-  linkedin: '',
-  email: '',
+  github: 'https://github.com/sonstory',
+  linkedin: 'https://www.linkedin.com/in/sonstory/',
+  email: 'junyoung5448@gmail.com',
 };
 
 /** giscus 댓글 설정. 9단계(배포)에서 저장소 생성 후 https://giscus.app 에서 발급받아 채운다. */

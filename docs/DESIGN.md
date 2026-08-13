@@ -60,6 +60,7 @@
 | `PostCard.astro` | 목록 카드. `heroImage` 썸네일 + 카테고리 배지 + 제목/설명/날짜/태그. 홈 "카테고리별" 섹션은 이 컴포넌트 대신 제목·날짜만 있는 간단한 리스트를 쓴다 (박스가 좁아 카드가 안 맞는다) |
 | `TableOfContents.astro` | 우측 스티키 목차 + 스크롤 위치 하이라이트 (`lg` 이상에서만 표시) |
 | `TagList.astro` | 태그 칩 목록 |
+| `SocialLinks.astro` | `SOCIAL_LINKS`(GitHub/LinkedIn/Email) 아이콘 버튼. 홈 히어로·About에서 공용으로 쓴다 — 소셜 링크를 표시할 곳이 새로 생기면 이 컴포넌트를 재사용한다 |
 | `Comments.astro` | giscus. `GISCUS_CONFIG`가 비면 안내 문구만 렌더 |
 | `AdSlot.astro` | 광고 자리. `ADSENSE_CLIENT_ID`가 비면 아무것도 렌더하지 않는다. prop 이름은 `adSlotId` — `slot`은 Astro 예약어라 쓸 수 없다 |
 | `JsonLd.astro` | 구조화 데이터. `data` prop으로 객체를 넘긴다 |

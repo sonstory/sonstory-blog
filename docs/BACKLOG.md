@@ -39,7 +39,7 @@
 구현 단계에서 의도적으로 미룬 항목들이다. 완료하면 지운다.
 
 - [ ] **도메인 연결 마무리** — `sonstory.dev`를 워커에 연결한 뒤, 아직 `https://sonstory.kr` placeholder로 남아 있는 세 곳을 함께 갱신한다: `src/consts.ts`의 `SITE_URL`, `astro.config.mjs`의 `site`, `public/robots.txt`의 `Sitemap:` 줄
-- [ ] **About 페이지 실제 프로필** — `src/pages/about.astro`의 placeholder(이름, 소개, 논문, 경력, 프로젝트)를 실제 내용으로 교체. `src/consts.ts`의 `AUTHOR_NAME`("이름을 입력하세요" 상태), `SOCIAL_LINKS`도 함께 채운다
+- [ ] **About 페이지 실제 프로필** — `AUTHOR_NAME`(손준영)과 `SOCIAL_LINKS`(GitHub/LinkedIn/Email)는 채워졌다. 남은 건 `src/pages/about.astro`의 placeholder(한 줄 소개, 자기소개 문단, 논문, 경력, 프로젝트)를 실제 내용으로 교체하는 것
 - [ ] **giscus 댓글 활성화** — 저장소는 이미 있으므로 Settings → Discussions를 켜고 [giscus.app](https://giscus.app)에서 값을 발급받아 `src/consts.ts`의 `GISCUS_CONFIG`에 입력
 - [ ] **AdSense 신청·승인** — 승인 후 `src/consts.ts`의 `ADSENSE_CLIENT_ID`, `ADSENSE_AD_SLOTS`, `public/ads.txt`를 채운다
 - [ ] **서치콘솔 / 서치어드바이저 등록** — 소유확인 메타태그를 `src/consts.ts`의 `SITE_VERIFICATION`에 입력
